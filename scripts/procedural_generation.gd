@@ -1,8 +1,6 @@
 extends Node2D
 
 
-
-
 @export var dungeon : Dungeon
 
 @onready var room_tiles: TileMapLayer = $RoomTiles
@@ -39,9 +37,12 @@ func save_dungeon() -> void:
 	if (dungeon_cleared):
 		print("SAVE ERROR: Empty Dungeon")
 		return
-
-	var room : Room = dungeon.rooms[0][0]
-	room_save = room.save_to_json()
+	
+	#BUG When saving twice, it uses the json string form on second save, crashing here
+	print("SAVED ROOM: " + str(dungeon.rooms[0][0]))
+	#var room : Room = dungeon.rooms[0][0]
+	#room_save = room.save_to_json()
+	
 	dungeon_save = dungeon.save_to_json()
 	print("SAVED DUNGEON: " +str(dungeon_save))
 	
@@ -59,7 +60,6 @@ func load_dungeon() -> void:
 	for x in range(dungeon._dimensions.x):
 		for y in range(dungeon._dimensions.y):
 			pass
-	print(SaveLoader.load_from_json(dungeon_save))
 	dungeon.set_with_dictionary(SaveLoader.load_from_json(dungeon_save))
 	
 	

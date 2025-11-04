@@ -40,7 +40,7 @@ func clear_rooms() -> void:
 	rooms = []
 	
 
-func get_dungeon_as_dictionary() -> Dictionary:
+func get_dungeon_as_dictionary(is_copy : bool = false) -> Dictionary:
 	var saved_dungeon : Dictionary = {
 		"_dimensions": _dimensions,
 		"_start" : _start,
@@ -49,7 +49,10 @@ func get_dungeon_as_dictionary() -> Dictionary:
 		"_branches_length" : _branches_length,
 		"rooms" : rooms,
 	}
-	return saved_dungeon
+	if (is_copy):
+		return saved_dungeon.duplicate(true)
+	else:
+		return saved_dungeon
 
 #Takes initializes room with dictionary.
 func set_with_dictionary(data : Dictionary) -> void:
@@ -59,9 +62,20 @@ func set_with_dictionary(data : Dictionary) -> void:
 	_branches = int(data["_branches"])
 	_branches_length = Vector2i((data["_branches_length"]))
 	rooms = Array(data["rooms"])
+	#Fixes json strings back into rooms
+	string_room_array_to_room_resource()
+
+func string_room_array_to_room_resource() -> void:
+	for x in range(_dimensions.x):
+		for y in range(_dimensions.y):
+			var room_json = rooms[x][y]
+			var room = Room.new()
+			room.set_with_dictionary(SaveLoader.load_from_json(room_json))
+			rooms[x][y] = room
 
 func save_to_json() -> String:
-	var cleaned_dungeon_dictionary : Dictionary = get_dungeon_as_dictionary()
+	var cleaned_dungeon_dictionary : Dictionary = get_dungeon_as_dictionary(true)
+	
 	var json_rooms : Array = cleaned_dungeon_dictionary["rooms"]
 	
 	for x in range(_dimensions.x):

@@ -17,7 +17,6 @@ static func load_from_json(json_string : String) -> Dictionary:
 	if error == OK:
 		var data_received = json.data
 		if typeof(data_received) == (TYPE_DICTIONARY):
-			
 			#Returns converted JSON to dictionary
 			return SaveLoader.clean_json_for_dictionary_output(data_received)
 		
