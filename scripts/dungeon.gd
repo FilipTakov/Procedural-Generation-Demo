@@ -83,5 +83,8 @@ func save_to_json() -> String:
 			var room : Room = json_rooms[x][y]
 			json_rooms[x][y] = room.save_to_json()
 			
-	#print(SaveLoader.save_to_json(get_dungeon_as_dictionary()))
-	return SaveLoader.save_to_json(cleaned_dungeon_dictionary)
+	var json_dungeon = SaveLoader.save_to_json(cleaned_dungeon_dictionary)
+	
+	#Signal Save Created
+	SignalManager.save_created.emit(json_dungeon)
+	return json_dungeon

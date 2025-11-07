@@ -11,7 +11,6 @@ var bottom_right_boundary: Vector2i = Vector2i(28,22)
 
 var dungeon_cleared : bool = true
 
-var room_save : String
 var dungeon_save : String
 
 func _ready() -> void:
@@ -37,14 +36,9 @@ func save_dungeon() -> void:
 	if (dungeon_cleared):
 		print("SAVE ERROR: Empty Dungeon")
 		return
-	
-	#BUG When saving twice, it uses the json string form on second save, crashing here
-	print("SAVED ROOM: " + str(dungeon.rooms[0][0]))
-	#var room : Room = dungeon.rooms[0][0]
-	#room_save = room.save_to_json()
-	
+
 	dungeon_save = dungeon.save_to_json()
-	print("SAVED DUNGEON: " +str(dungeon_save))
+	print("SAVED DUNGEON")
 	
 
 func load_dungeon() -> void:
@@ -65,6 +59,7 @@ func load_dungeon() -> void:
 	
 	iterate_over_rectangle(Callable(place_room_tile))
 	dungeon_cleared = false
+	print("LOADED DUNGEON")
 
 
 func _populate_dungeon_with_random_rooms() -> void:

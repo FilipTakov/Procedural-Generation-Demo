@@ -9,7 +9,6 @@ static func save_to_json(data : Dictionary) -> String:
 
 #Consider Recursion to clean up sub-dictionaries for their Vector2i values. Like #If (current_data[key] = TYPE_DICTIONARY): current_data[key] = clean_json_for_dictionary()
 #Problem 1: Array & Dictionary Mixed Recursion is a hell.
-#Solution: Hard Code it For Now. Implement stuff as needed. When we work on enemies, well look back at this with fresh eyes.
 static func load_from_json(json_string : String) -> Dictionary:
 	# Retrieve data
 	var json = JSON.new()
@@ -26,29 +25,8 @@ static func load_from_json(json_string : String) -> Dictionary:
 		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 	return {}
 
-static func load_dungeon_from_json(json_string : String) -> Dictionary:
-	# Retrieve data
-	var json = JSON.new()
-	var error = json.parse(json_string)
-	if error == OK:
-		var data_received = json.data
-		if typeof(data_received) == (TYPE_DICTIONARY):
-			
-			#Somehow go through data and clean it up.
-			#for x in range(_dimensions.x):
-			#	for y in range(_dimensions.y):
-			#		pass
-			#Returns converted JSON to dictionary
-			return SaveLoader.clean_json_for_dictionary_output(data_received)
-			
-		else:
-			print("Unexpected data")
-	else:
-		print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-	return {}
-	
 
-#Cleans entire dictionary for Vector2i values
+#Cleans entire dictionary Vec2I Strings
 static func clean_json_for_dictionary_output(data : Dictionary) -> Dictionary:
 	for key in data:
 		var entry = data[key]
@@ -60,8 +38,8 @@ static func clean_json_for_dictionary_output(data : Dictionary) -> Dictionary:
 				data[key] = string_to_vector2i(data[key])
 	return data
 
-
 #Converts String form vector2is from a JSON output.
+# String "(1,2)" -> VEC2I Vector2i(1,2)
 static func string_to_vector2i(string := "") -> Vector2i:
 	if string:
 		var new_string: String = string
@@ -70,5 +48,4 @@ static func string_to_vector2i(string := "") -> Vector2i:
 		var array: Array = new_string.split(", ")
 
 		return Vector2i(int(array[0]), int(array[1]))
-
 	return Vector2i.ZERO
