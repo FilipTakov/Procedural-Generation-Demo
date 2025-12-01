@@ -5,12 +5,14 @@ extends Resource
 var entrance_count : int #= GlobalConstants.RoomShape.ONE_WAY
 var angle : int # Must be 90, 180, or 270
 var is_hallway : bool
+var is_full : bool
 var array_position : Vector2i
 
-enum RoomShapes {EMPTY, ONE_WAY, TWO_WAY_HALL, TWO_WAY_CORNER, THREE_WAY, FOUR_WAY}
+enum RoomShapes {EMPTY, FULL, ONE_WAY, TWO_WAY_HALL, TWO_WAY_CORNER, THREE_WAY, FOUR_WAY}
 
 const room_shape_atlas_positions = {
-	RoomShapes.EMPTY: Vector2i(0,4),
+	RoomShapes.EMPTY: Vector2i(2,4),
+	RoomShapes.FULL: Vector2i(0,4),
 	RoomShapes.ONE_WAY: Vector2i(0,0),
 	RoomShapes.TWO_WAY_CORNER: Vector2i(0,1),
 	RoomShapes.TWO_WAY_HALL: Vector2i(1,1),
@@ -19,34 +21,36 @@ const room_shape_atlas_positions = {
 }
 const possible_entrance_counts = [0, 1, 2, 3, 4]
 
-func _init(p_entrance_count : int = 0, p_angle : int = 0, p_is_hallway : bool = false, array_pos : Vector2i = Vector2i(0,0)):
+func _init(p_entrance_count : int = 0, p_angle : int = 0, p_is_hallway : bool = false, p_is_full: bool = false, array_pos : Vector2i = Vector2i(0,0)):
 	entrance_count = p_entrance_count
 	angle = p_angle
 	is_hallway = p_is_hallway
+	is_full = p_is_full
 	array_position = array_pos
 
 ## Getters & Setters
 func get_entrance_count() -> int:
 	return entrance_count
-
 func set_entrance_count(count : int) -> void:
 	entrance_count = count
 
 func get_angle() -> int:
 	return angle
-
 func set_angle(degrees : int) -> void:
 	angle = degrees
 
 func get_is_hallway() -> bool:
 	return is_hallway
-
 func set_is_hallway(status : bool) -> void:
 	is_hallway = status
 
+func get_is_full() -> bool:
+	return is_full
+func set_is_full(status : bool) -> void:
+	is_full = status
+
 func get_array_position() -> Vector2i:
 	return array_position
-
 func set_array_position(given_position : Vector2i) -> void:
 	array_position = given_position
 
@@ -56,7 +60,10 @@ func get_atlas_position() -> Vector2i:
 	
 	match entrance_count:
 		0:
-			atlas_id = room_shape_atlas_positions[RoomShapes.EMPTY]
+			if (is_full):
+				atlas_id = room_shape_atlas_positions[RoomShapes.FULL]
+			else:
+				atlas_id = room_shape_atlas_positions[RoomShapes.EMPTY]
 		1:
 			atlas_id = room_shape_atlas_positions[RoomShapes.ONE_WAY]
 		2:
@@ -84,6 +91,7 @@ func get_room_as_dictionary() -> Dictionary:
 		"entrance_count": entrance_count,
 		"angle" : angle,
 		"is_hallway" : is_hallway,
+		"is_full" : is_full,
 		"array_position" : array_position,
 	}
 	return saved_room
@@ -93,6 +101,7 @@ func set_with_dictionary(data : Dictionary) -> void:
 	entrance_count = int(data["entrance_count"])
 	angle = int(data["angle"])
 	is_hallway = int(data["is_hallway"])
+	is_full = int(data["is_full"])
 	array_position = Vector2i((data["array_position"]))
 
 

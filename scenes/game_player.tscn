@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=4 uid="uid://d2bs2v75o7vxp"]
+[gd_scene load_steps=9 format=4 uid="uid://d2bs2v75o7vxp"]
 
 [ext_resource type="Script" uid="uid://b1j2rbo1pje8a" path="res://scripts/game_player.gd" id="1_pqk7p"]
 [ext_resource type="PackedScene" uid="uid://cgmo1eicequd0" path="res://scenes/generation_ui.tscn" id="2_hgyw2"]
@@ -7,6 +7,7 @@
 [ext_resource type="TileSet" uid="uid://cawnsi01lrvmp" path="res://room_tile_set.tres" id="5_el7nm"]
 [ext_resource type="Script" uid="uid://condq0821xyrd" path="res://scripts/rng.gd" id="5_hgyw2"]
 [ext_resource type="Script" uid="uid://gqyucs02b850" path="res://scripts/save_loader.gd" id="7_u2lal"]
+[ext_resource type="Script" uid="uid://cr1y0e55hk3a3" path="res://scripts/input_handler.gd" id="8_5u163"]
 
 [node name="GamePlayer" type="Node2D"]
 script = ExtResource("1_pqk7p")
@@ -30,3 +31,10 @@ tile_set = ExtResource("5_el7nm")
 
 [node name="SaveLoader" type="Node" parent="."]
 script = ExtResource("7_u2lal")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 280)
+zoom = Vector2(1.75, 1.75)
+
+[node name="InputHandler" type="Node" parent="."]
+script = ExtResource("8_5u163")

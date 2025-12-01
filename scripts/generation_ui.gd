@@ -5,13 +5,16 @@ extends CanvasLayer
 
 
 
+
+
 func _ready() -> void:
 	pass
 
 
 # Signal Manager calls
-func generate() -> void:
-	SignalManager.generate_called.emit()
+func generate(strategy : String) -> void:
+	
+	SignalManager.generate_called.emit(strategy)
 	
 func reset_generation() -> void:
 	SignalManager.reset_generation_called.emit()
@@ -23,8 +26,11 @@ func load_layout() -> void:
 	SignalManager.load_called.emit()
 
 # Button Signals
-func _on_generate_button_up() -> void:
-	generate()
+func _on_random_numbers_button_up() -> void:
+	generate("Num")
+
+func _on_noise_button_up() -> void:
+	generate("Noise")
 
 func _on_reset_button_up() -> void:
 	reset_generation()

@@ -20,9 +20,13 @@ func _ready() -> void:
 	SignalManager.save_called.connect(save_dungeon)
 	SignalManager.load_called.connect(load_dungeon)
 
-func generate_dungeon() -> void:
+func generate_dungeon(strategy : String) -> void:
 	# Generate rooms for dungeon resource
-	_populate_dungeon_with_random_rooms()
+	if (strategy == "Num"):
+		_populate_dungeon_with_random_rooms()
+	elif (strategy == "Noise"):
+		_populate_dungeon_with_noise()
+	
 	# Draws tiles
 	iterate_over_rectangle(Callable(place_room_tile))
 	dungeon_cleared = false
@@ -39,7 +43,6 @@ func save_dungeon() -> void:
 
 	dungeon_save = dungeon.save_to_json()
 	print("SAVED DUNGEON")
-	
 
 func load_dungeon() -> void:
 
@@ -68,7 +71,13 @@ func _populate_dungeon_with_random_rooms() -> void:
 		for y in range(dungeon._dimensions.y):
 			dungeon.rooms[x][y] = rng.spawn_random_room()
 
-
+func _populate_dungeon_with_noise() -> void:
+	dungeon = Dungeon.new(bottom_right_boundary - top_left_boundary, Vector2i(8,5))
+	rng.initialize_noise()
+	for x in range(dungeon._dimensions.x):
+		for y in range(dungeon._dimensions.y):
+			dungeon.rooms[x][y] = rng.noise_tile(Vector2i(x,y))
+			
 #Proc-Gens a new dungeon grid, overwriting any existing.
 func place_room_tile(cell_position : Vector2i) -> void:
 	var room : Room = dungeon.rooms[cell_position.x][cell_position.y]

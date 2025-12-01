@@ -24,9 +24,17 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 metadata/_edit_use_anchors_ = true
 
-[node name="Generate" type="Button" parent="MarginContainer/PCGCommands"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/PCGCommands"]
 layout_mode = 2
-text = "Generate"
+
+[node name="RandomNumbers" type="Button" parent="MarginContainer/PCGCommands/HBoxContainer"]
+layout_mode = 2
+text = "Random Numbers"
+
+[node name="Noise" type="Button" parent="MarginContainer/PCGCommands/HBoxContainer"]
+layout_mode = 2
+text = "Noise
+"
 
 [node name="Reset" type="Button" parent="MarginContainer/PCGCommands"]
 layout_mode = 2
@@ -72,7 +80,8 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 text = "Load: "
 
-[connection signal="button_up" from="MarginContainer/PCGCommands/Generate" to="." method="_on_generate_button_up"]
+[connection signal="button_up" from="MarginContainer/PCGCommands/HBoxContainer/RandomNumbers" to="." method="_on_random_numbers_button_up"]
+[connection signal="button_up" from="MarginContainer/PCGCommands/HBoxContainer/Noise" to="." method="_on_noise_button_up"]
 [connection signal="button_up" from="MarginContainer/PCGCommands/Reset" to="." method="_on_reset_button_up"]
 [connection signal="button_up" from="MarginContainer/PCGCommands/Save" to="." method="_on_save_button_up"]
 [connection signal="button_up" from="MarginContainer/PCGCommands/Load" to="." method="_on_load_button_up"]
