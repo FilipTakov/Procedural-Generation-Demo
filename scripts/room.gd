@@ -11,7 +11,7 @@ var array_position : Vector2i
 enum RoomShapes {EMPTY, FULL, ONE_WAY, TWO_WAY_HALL, TWO_WAY_CORNER, THREE_WAY, FOUR_WAY}
 
 const room_shape_atlas_positions = {
-	RoomShapes.EMPTY: Vector2i(2,4),
+	RoomShapes.EMPTY: Vector2i(2,5),
 	RoomShapes.FULL: Vector2i(0,4),
 	RoomShapes.ONE_WAY: Vector2i(0,0),
 	RoomShapes.TWO_WAY_CORNER: Vector2i(0,1),
